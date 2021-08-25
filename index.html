@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +12,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }.child {
+        }
+
+        .child {
             height: max-content;
             width: max-content;
             padding: 2rem;
@@ -21,6 +24,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="child">
@@ -29,13 +33,44 @@
             <button id="postata" type="button" onclick="turnon()">Turn on</button>
         </div>
         <div class="child boom">
-            
+
         </div>
     </div>
     <script>
         let boom = document.querySelector('.boom');
+        let status = document.getElementById('light');
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
+            const req_data = await fetch(endpoint, {
+                method: 'GET',
+                headers: {
+                    'authorization': '6cc0b0af7d216847be4ed7e115046719'
+                }
+            })
+            const response = await req_data.json();
+            let lastvalue = response[0].data[response[0].data.length - 1].d;
+            console.log(lastvalue);
+            if (lastvalue == '0') {
+                status.src = "/_off.gif"
+            } else {
+                status.src = "/_on.gif"
+            }
+            // response[0].data.forEach(onedata => {
+            //     // console.log(onedata.d)
+            //     if (onedata.d == '0') {
+            //         status.src = "/_off.gif"
+            //     } else {
+            //         status.src = "/_on.gif"
+            //     }
+            // })
+        })
+
+
+
+
         boom.innerHTML = '';
-        async function start(){
+        async function start() {
             // console.log('hello');
             const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
             const req_data = await fetch(endpoint, {
@@ -52,11 +87,11 @@
             })
         }
 
-        async function turnon(){
+        async function turnon() {
             let status = document.getElementById('light');
-            if (status.src.match("on")){
+            if (status.src.match("on")) {
                 status.src = "/_off.gif"
-            }else {
+            } else {
                 status.src = "/_on.gif"
             }
 
@@ -64,4 +99,5 @@
 
     </script>
 </body>
+
 </html>
