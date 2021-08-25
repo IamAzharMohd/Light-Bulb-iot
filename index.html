@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>IoT</title>
     <style>
         .container {
             min-height: 100vh;
-            background-color: #f1f1f1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,7 +15,6 @@
             height: max-content;
             width: max-content;
             padding: 2rem;
-            background-color: #40e9e9;
             border-radius: 20px;
             display: grid;
             place-items: center;
@@ -30,8 +28,13 @@
             <button id="start" type="button" onclick="start()">Start</button>
             <button id="postata" type="button" onclick="turnon()">Turn on</button>
         </div>
+        <div class="child boom">
+            
+        </div>
     </div>
     <script>
+        let boom = document.querySelector('.boom');
+        boom.innerHTML = '';
         async function start(){
             // console.log('hello');
             const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
@@ -44,14 +47,15 @@
             const response = await req_data.json();
             console.log(response[0].apiKey);
             response[0].data.forEach(onedata => {
-                console.log(Object.values(onedata))
+                boom.innerHTML += `<p>${onedata.d}</p>`;
+                console.log(onedata.d)
             })
         }
 
         async function turnon(){
             let status = document.getElementById('light');
             if (status.src.match("on")){
-                status.src = "/_off.png"
+                status.src = "/_off.gif"
             }else {
                 status.src = "/_on.gif"
             }
