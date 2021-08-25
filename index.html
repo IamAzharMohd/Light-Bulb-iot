@@ -40,52 +40,44 @@
         let boom = document.querySelector('.boom');
         let status = document.getElementById('light');
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
-            const req_data = await fetch(endpoint, {
-                method: 'GET',
-                headers: {
-                    'authorization': '6cc0b0af7d216847be4ed7e115046719'
+        window.addEventListener('DOMContentLoaded', () => {
+            setInterval(async () => {
+                const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
+                const req_data = await fetch(endpoint, {
+                    method: 'GET',
+                    headers: {
+                        'authorization': '6cc0b0af7d216847be4ed7e115046719'
+                    }
+                })
+                const response = await req_data.json();
+                let lastvalue = response[0].data[response[0].data.length - 1].d;
+                console.log(lastvalue);
+                if (lastvalue == '0') {
+                    status.src = "/_off.gif"
+                } else {
+                    status.src = "/_on.gif"
                 }
-            })
-            const response = await req_data.json();
-            let lastvalue = response[0].data[response[0].data.length - 1].d;
-            console.log(lastvalue);
-            if (lastvalue == '0') {
-                status.src = "/_off.gif"
-            } else {
-                status.src = "/_on.gif"
-            }
-            // response[0].data.forEach(onedata => {
-            //     // console.log(onedata.d)
-            //     if (onedata.d == '0') {
-            //         status.src = "/_off.gif"
-            //     } else {
-            //         status.src = "/_on.gif"
-            //     }
-            // })
-        })
+            }, 1000) })
 
-
-
-
-        boom.innerHTML = '';
-        async function start() {
+        async function postStuff() {
             // console.log('hello');
-            const endpoint = 'https://user-auth-iot.herokuapp.com/v2/rawdata'
+            let newStuff = { d: '0' };
+            const endpoint = 'https://user-auth-iot.herokuapp.com/v2'
             const req_data = await fetch(endpoint, {
-                method: 'GET',
+                method: 'PUT',
                 headers: {
+                    'Content-Type': 'application/json',
                     'authorization': '6cc0b0af7d216847be4ed7e115046719'
-                }
+                },
+                body: JSON.stringify(newStuff)
             })
+            console.log(req_data)
             const response = await req_data.json();
-            console.log(response[0].apiKey);
-            response[0].data.forEach(onedata => {
-                boom.innerHTML += `<p>${onedata.d}</p>`;
-                console.log(onedata.d)
-            })
+            console.log(response);
         }
+
+
+
 
         async function turnon() {
             let status = document.getElementById('light');
