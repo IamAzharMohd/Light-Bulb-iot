@@ -13,8 +13,9 @@
             justify-content: center;
             align-items: center;
         }.child {
-            height: 500px;
-            width: 500px;
+            height: max-content;
+            width: max-content;
+            padding: 2rem;
             background-color: #40e9e9;
             border-radius: 20px;
             display: grid;
@@ -25,8 +26,9 @@
 <body>
     <div class="container">
         <div class="child">
+            <img id="light" src="/_off.png" srcset="">
             <button id="start" type="button" onclick="start()">Start</button>
-            <button id="postata" type="button" onclick="postStuff()">Post</button>
+            <button id="postata" type="button" onclick="turnon()">Turn on</button>
         </div>
     </div>
     <script>
@@ -46,21 +48,14 @@
             })
         }
 
-        async function postStuff(){
-            // console.log('hello');
-            let newStuff = { d: '1' };
-            const endpoint = 'http://localhost:4000/v2'
-            const req_data = await fetch(endpoint, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': '6cc0b0af7d216847be4ed7e115046719'
-                },
-                body: JSON.stringify(newStuff)
-            })
-            console.log(req_data)
-            const response = await req_data.json();
-            console.log(response);
+        async function turnon(){
+            let status = document.getElementById('light');
+            if (status.src.match("on")){
+                status.src = "/_off.png"
+            }else {
+                status.src = "/_on.gif"
+            }
+
         }
 
     </script>
