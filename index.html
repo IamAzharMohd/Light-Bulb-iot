@@ -47,7 +47,7 @@
                 const req_data = await fetch(endpoint, {
                     method: 'GET',
                     headers: {
-                        'authorization': '6cc0b0af7d216847be4ed7e115046719'
+                        'authorization': 'cd70b6d099988ddeb75b568eea16222f'
                     }
                 })
                 const response = await req_data.json();
@@ -59,25 +59,6 @@
                     status.src = "/_on.gif"
                 }
             }, 1000) })
-
-        async function postStuff() {
-            // console.log('hello');
-            let newStuff = { d: '0' };
-            const endpoint = 'https://user-auth-iot.herokuapp.com/v2'
-            const req_data = await fetch(endpoint, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': '6cc0b0af7d216847be4ed7e115046719'
-                },
-                body: JSON.stringify(newStuff)
-            })
-            console.log(req_data)
-            const response = await req_data.json();
-            console.log(response);
-        }
-
-
 
 
         async function turnon() {
